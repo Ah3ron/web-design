@@ -1,0 +1,580 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.3
+-- https://www.phpmyadmin.net/
+--
+-- Хост: localhost
+-- Время создания: Ноя 27 2024 г., 19:42
+-- Версия сервера: 5.7.14
+-- Версия PHP: 7.0.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- База данных: `bookby`
+--
+CREATE DATABASE IF NOT EXISTS `bookby` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `bookby`;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `book_reviews`
+--
+
+CREATE TABLE `book_reviews` (
+  `ISBN` varchar(20) NOT NULL,
+  `Reviews` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `book_reviews`
+--
+
+INSERT INTO `book_reviews` (`ISBN`, `Reviews`) VALUES
+('0-672-31697-8', 'Это замечательная книга, ее должен каждый прочитать.');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `books`
+--
+
+CREATE TABLE `books` (
+  `ISBN` varchar(20) CHARACTER SET utf8 NOT NULL,
+  `Author` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+  `Title` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `Price` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Дамп данных таблицы `books`
+--
+
+INSERT INTO `books` (`ISBN`, `Author`, `Title`, `Price`) VALUES
+('0-672-31509-2', 'Лермонтов', 'Избранные произведения', '24.99'),
+('0-672-31697-8', 'Толстой', 'Война и мир', '34.99'),
+('0-672-31745-1', 'Булгаков', 'Мастер и Маргарита', '24.99'),
+('0-672-31769-9', 'Пушкин', 'Евгений Онегин', '49.99'),
+('234456', 'Пушкин', 'кпвупук', '30.00'),
+('345332', 'Носов', 'ываываы', '999.00'),
+('345345', 'Носов', 'арпаов', '23.00'),
+('7986', 'Носов', 'ролорл', '20.00');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `customers`
+--
+
+CREATE TABLE `customers` (
+  `CustomerID` int(11) NOT NULL,
+  `Name` varchar(100) NOT NULL,
+  `Address` varchar(255) DEFAULT NULL,
+  `City` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `customers`
+--
+
+INSERT INTO `customers` (`CustomerID`, `Name`, `Address`, `City`) VALUES
+(1, 'Иванов И.И.', 'пр. Пушкина 32', 'Минск'),
+(2, 'Петров И.В.', 'пр. Рокоссовского 10', 'Минск'),
+(3, 'Сидоров А.В.', 'ул. Цветочная 18', 'Пинск');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `OrderID` int(11) NOT NULL,
+  `ISBN` varchar(20) NOT NULL,
+  `Quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `order_items`
+--
+
+INSERT INTO `order_items` (`OrderID`, `ISBN`, `Quantity`) VALUES
+(1, '0-672-31697-8', 2),
+(2, '0-672-31769-9', 1),
+(3, '0-672-31509-2', 1),
+(3, '0-672-31769-9', 1),
+(4, '0-672-31745-1', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `orders`
+--
+
+CREATE TABLE `orders` (
+  `OrderID` int(11) NOT NULL,
+  `CustomerID` int(11) NOT NULL,
+  `Amount` decimal(10,2) NOT NULL,
+  `Date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `orders`
+--
+
+INSERT INTO `orders` (`OrderID`, `CustomerID`, `Amount`, `Date`) VALUES
+(1, 3, '69.98', '2006-04-02'),
+(2, 1, '49.99', '2006-04-15'),
+(3, 2, '74.98', '2006-04-19'),
+(4, 3, '24.99', '2006-05-01');
+
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `book_reviews`
+--
+ALTER TABLE `book_reviews`
+  ADD PRIMARY KEY (`ISBN`);
+
+--
+-- Индексы таблицы `books`
+--
+ALTER TABLE `books`
+  ADD PRIMARY KEY (`ISBN`);
+
+--
+-- Индексы таблицы `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`CustomerID`);
+
+--
+-- Индексы таблицы `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`OrderID`,`ISBN`),
+  ADD KEY `ISBN` (`ISBN`);
+
+--
+-- Индексы таблицы `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`OrderID`),
+  ADD KEY `CustomerID` (`CustomerID`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `CustomerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT для таблицы `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `OrderID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `book_reviews`
+--
+ALTER TABLE `book_reviews`
+  ADD CONSTRAINT `book_reviews_ibfk_1` FOREIGN KEY (`ISBN`) REFERENCES `books` (`ISBN`);
+
+--
+-- Ограничения внешнего ключа таблицы `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`OrderID`) REFERENCES `orders` (`OrderID`),
+  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`ISBN`) REFERENCES `books` (`ISBN`);
+
+--
+-- Ограничения внешнего ключа таблицы `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`CustomerID`) REFERENCES `customers` (`CustomerID`);
+--
+-- База данных: `employee`
+--
+CREATE DATABASE IF NOT EXISTS `employee` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `employee`;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `assignment`
+--
+
+CREATE TABLE `assignment` (
+  `clientID` int(11) NOT NULL,
+  `employeeID` int(11) NOT NULL,
+  `workdate` date NOT NULL,
+  `hours` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `assignment`
+--
+
+INSERT INTO `assignment` (`clientID`, `employeeID`, `workdate`, `hours`) VALUES
+(1, 7513, '2003-01-20', 8.5);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `client`
+--
+
+CREATE TABLE `client` (
+  `clientID` int(11) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `address` varchar(100) DEFAULT NULL,
+  `contactPerson` varchar(80) DEFAULT NULL,
+  `contactNumber` char(12) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `client`
+--
+
+INSERT INTO `client` (`clientID`, `name`, `address`, `contactPerson`, `contactNumber`) VALUES
+(1, 'TelcoInc', '1 Collins St Melbourne', 'Fred Smith', '95551234'),
+(2, 'The Bank', '100 Bourke St Melbourne', 'Jan Tristan', '95559876');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `department`
+--
+
+CREATE TABLE `department` (
+  `departmentID` int(11) NOT NULL,
+  `name` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `department`
+--
+
+INSERT INTO `department` (`departmentID`, `name`) VALUES
+(42, 'Финансовый отдел'),
+(128, 'Отдел проектирования'),
+(129, 'Отдел кадров'),
+(130, 'Отдел маркетинга');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `employee`
+--
+
+CREATE TABLE `employee` (
+  `employeeID` int(11) NOT NULL,
+  `name` varchar(80) NOT NULL,
+  `job` varchar(30) NOT NULL,
+  `departmentID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `employee`
+--
+
+INSERT INTO `employee` (`employeeID`, `name`, `job`, `departmentID`) VALUES
+(6651, 'Аджай Пател', 'Программист', 128),
+(7513, 'Нора Эдвардс', 'Программист', 128),
+(9006, 'Кэнди Барнетт', 'Системный администратор', 128),
+(9842, 'Бен Смит', 'Администратор БД', 42);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `employeeskills`
+--
+
+CREATE TABLE `employeeskills` (
+  `employeeID` int(11) NOT NULL,
+  `skill` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `employeeskills`
+--
+
+INSERT INTO `employeeskills` (`employeeID`, `skill`) VALUES
+(6651, 'Java'),
+(6651, 'VB'),
+(7513, 'C'),
+(7513, 'Java'),
+(7513, 'Perl'),
+(9006, 'Linux'),
+(9006, 'NT'),
+(9842, 'DB2');
+
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `assignment`
+--
+ALTER TABLE `assignment`
+  ADD PRIMARY KEY (`clientID`,`employeeID`,`workdate`),
+  ADD KEY `employeeID` (`employeeID`);
+
+--
+-- Индексы таблицы `client`
+--
+ALTER TABLE `client`
+  ADD PRIMARY KEY (`clientID`);
+
+--
+-- Индексы таблицы `department`
+--
+ALTER TABLE `department`
+  ADD PRIMARY KEY (`departmentID`);
+
+--
+-- Индексы таблицы `employee`
+--
+ALTER TABLE `employee`
+  ADD PRIMARY KEY (`employeeID`),
+  ADD KEY `departmentID` (`departmentID`);
+
+--
+-- Индексы таблицы `employeeskills`
+--
+ALTER TABLE `employeeskills`
+  ADD PRIMARY KEY (`employeeID`,`skill`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `client`
+--
+ALTER TABLE `client`
+  MODIFY `clientID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT для таблицы `department`
+--
+ALTER TABLE `department`
+  MODIFY `departmentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
+--
+-- AUTO_INCREMENT для таблицы `employee`
+--
+ALTER TABLE `employee`
+  MODIFY `employeeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9843;
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `assignment`
+--
+ALTER TABLE `assignment`
+  ADD CONSTRAINT `assignment_ibfk_1` FOREIGN KEY (`clientID`) REFERENCES `client` (`clientID`),
+  ADD CONSTRAINT `assignment_ibfk_2` FOREIGN KEY (`employeeID`) REFERENCES `employee` (`employeeID`);
+
+--
+-- Ограничения внешнего ключа таблицы `employee`
+--
+ALTER TABLE `employee`
+  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`departmentID`) REFERENCES `department` (`departmentID`);
+
+--
+-- Ограничения внешнего ключа таблицы `employeeskills`
+--
+ALTER TABLE `employeeskills`
+  ADD CONSTRAINT `employeeskills_ibfk_1` FOREIGN KEY (`employeeID`) REFERENCES `employee` (`employeeID`);
+--
+-- База данных: `forum`
+--
+CREATE DATABASE IF NOT EXISTS `forum` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `forum`;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `authors`
+--
+
+CREATE TABLE `authors` (
+  `id_author` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `passw` varchar(255) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `icq` bigint(20) DEFAULT NULL,
+  `about` text,
+  `photo` varchar(255) DEFAULT NULL,
+  `time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `lasttime` datetime DEFAULT NULL,
+  `statususer` enum('user','moderator','admin') DEFAULT 'user'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `customers`
+--
+
+CREATE TABLE `customers` (
+  `CustomerID` int(11) NOT NULL,
+  `Name` varchar(100) NOT NULL,
+  `Address` varchar(255) DEFAULT NULL,
+  `City` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `forums`
+--
+
+CREATE TABLE `forums` (
+  `idforum` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `rule` text,
+  `logo` varchar(255) DEFAULT NULL,
+  `pos` int(11) NOT NULL DEFAULT '0',
+  `hide` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `posts`
+--
+
+CREATE TABLE `posts` (
+  `id_post` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `file` varchar(255) DEFAULT NULL,
+  `author` varchar(100) NOT NULL,
+  `id_author` int(11) NOT NULL,
+  `hide` tinyint(1) NOT NULL DEFAULT '0',
+  `time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `parent_post` int(11) DEFAULT '0',
+  `id_theme` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `themes`
+--
+
+CREATE TABLE `themes` (
+  `id_theme` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `author` varchar(100) NOT NULL,
+  `id_author` int(11) NOT NULL,
+  `hide` tinyint(1) NOT NULL DEFAULT '0',
+  `time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `id_forum` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Индексы сохранённых таблиц
+--
+
+--
+-- Индексы таблицы `authors`
+--
+ALTER TABLE `authors`
+  ADD PRIMARY KEY (`id_author`);
+
+--
+-- Индексы таблицы `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`CustomerID`);
+
+--
+-- Индексы таблицы `forums`
+--
+ALTER TABLE `forums`
+  ADD PRIMARY KEY (`idforum`);
+
+--
+-- Индексы таблицы `posts`
+--
+ALTER TABLE `posts`
+  ADD PRIMARY KEY (`id_post`),
+  ADD KEY `id_author` (`id_author`),
+  ADD KEY `id_theme` (`id_theme`);
+
+--
+-- Индексы таблицы `themes`
+--
+ALTER TABLE `themes`
+  ADD PRIMARY KEY (`id_theme`),
+  ADD KEY `id_author` (`id_author`),
+  ADD KEY `id_forum` (`id_forum`);
+
+--
+-- AUTO_INCREMENT для сохранённых таблиц
+--
+
+--
+-- AUTO_INCREMENT для таблицы `authors`
+--
+ALTER TABLE `authors`
+  MODIFY `id_author` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `CustomerID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `forums`
+--
+ALTER TABLE `forums`
+  MODIFY `idforum` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `id_post` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT для таблицы `themes`
+--
+ALTER TABLE `themes`
+  MODIFY `id_theme` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `posts`
+--
+ALTER TABLE `posts`
+  ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`id_author`) REFERENCES `authors` (`id_author`) ON DELETE CASCADE,
+  ADD CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`id_theme`) REFERENCES `themes` (`id_theme`) ON DELETE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `themes`
+--
+ALTER TABLE `themes`
+  ADD CONSTRAINT `themes_ibfk_1` FOREIGN KEY (`id_author`) REFERENCES `authors` (`id_author`) ON DELETE CASCADE,
+  ADD CONSTRAINT `themes_ibfk_2` FOREIGN KEY (`id_forum`) REFERENCES `forums` (`idforum`) ON DELETE CASCADE;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

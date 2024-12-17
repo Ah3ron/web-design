@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма ввода персональных данных пользователя</title>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+    <form action="reader.php" method="post">
+        <table align="center">
+            <tr>
+                <td>Введите ваше имя: </td>
+                <td><input type="text" name="name"></td>
+            </tr>
+            <tr>
+                <td>Введите ваш логин: </td>
+                <td><input type="text" name="login"></td>
+            </tr>
+            <tr>
+                <td>Введите ваш пароль: </td>
+                <td><input type="password" name="password"></td>
+            </tr>
+            <tr>
+                <td>Введите вашу почту: </td>
+                <td><input type="email" name="email"></td>
+            </tr>
+            <tr>
+                <td>Выбор иностранного языка:</td>
+                <td>
+                    <input type="checkbox" name="Russian" value="Русский">Русский<br>
+                    <input type="checkbox" name="English" value="Английский">Английский<br>
+                    <input type="checkbox" name="Germany" value="Немецкий">Немецкий<br>
+                </td>
+            </tr>
+            <tr>
+                <td>Выбор пола: </td>
+                <td>
+                    <input type="radio" name="sex" value="Мужской">Мужской<br>
+                    <input type="radio" name="sex" value="Женский">Женский<br>
+                </td>
+            </tr>
+            <tr>
+                <td>Образование: </td>
+                <td>
+                    <input type="radio" name="education" value="Среднее ">Среднее образование<br>
+                    <input type="radio" name="education" value="Среднее специальное">Среднее специальное образование<br>
+                    <input type="radio" name="education" value="Высшее">Высшее образование<br>
+                </td>
+            </tr>
+            <tr>
+                <td>Город проживания: </td>
+                <td>
+                    <select name="city">
+                        <option value="Пинск">Пинск</option>
+                        <option value="Слоним">Слоним</option>
+                        <option value="Минск">Минск</option>
+                        <option value="Гродно">Гродно</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Профессия: </td>
+                <td>
+                    <select name="profession">
+                        <option value="Программист">Программист</option>
+                        <option value="Экономист">Экономист</option>
+                        <option value="Инженер">Инженер</option>
+                        <option value="Слесарь">Слесарь</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Задайте интересующий<br> вас вопрос: </td>
+                <td><textarea name="question" cols="20" rows="5"></textarea></td>
+            </tr>
+
+            <tr>
+                <td><input type="submit" value="Отправить"></td>
+                <td><input type="reset" value="Сбросить"></td>
+            </tr>
+
+        </table>
+    </form>
+</body>
+</html>

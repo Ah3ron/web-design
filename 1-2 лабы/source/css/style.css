@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fef1d9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    justify-content: center;
+}
+
+table{
+    table-layout: fixed;
+    border-style: dotted;
+    width: 80%;
+    border-spacing: 0px;
+    margin: 0 auto;
+}
+
+th,
+td {
+  padding: 10px;
+}
+
+.price{
+    color: red;
+}
+
+.head{
+    color:rgb(95, 95, 95);
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-style: italic;
+    background-color: rgb(219, 238, 156);
+}
+
+li{
+    font-style: italic;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+    color: rgb(14, 7, 90);
+
+}
+
